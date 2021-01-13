@@ -1,17 +1,17 @@
 window.onload=(()=>{
-var query = location.search;
-var url = "";
-var pre = 0;
-if(param != "")
+let query = location.search;
+let url = "";
+let pre = 0;
+if(query != "")
 {
 	query = query.slice(1);
-	var param = query.split('&');
-	for(var i=0;i<param.length;i++)
+	let param = query.split('&');
+	for(let i=0;i<param.length;i++)
 	{
-		var element = param[ i ].split( '=' );
+		let element = param[ i ].split( '=' );
 
-		var paramName = decodeURIComponent( element[ 0 ] );
-		var paramValue = decodeURIComponent( element[ 1 ] );
+		let paramName = decodeURIComponent( element[ 0 ] );
+		let paramValue = decodeURIComponent( element[ 1 ] );
 		if(paramName == "url")
 		{
 			url=paramValue;
@@ -30,16 +30,16 @@ if(param != "")
 
 function getrelease(url,pre)
 {
-	var request = new XMLHttpRequest();
+	let request = new XMLHttpRequest();
 	request.open('GET', url);
 	request.onreadystatechange = function () {
 		if (request.readyState != 4) {
 		} else if (request.status != 200) {
 			document.getElementById("warning").innerHTML="<h1>Failed.</h1>"
 		} else {
-			var isexist=false;
-			var obj=JSON.parse(request.responseText);
-			for(var i=0;i<obj.length;i++)
+			let isexist=false;
+			let obj=JSON.parse(request.responseText);
+			for(let i=0;i<obj.length;i++)
 			{
 				if(obj[i].prerelease==pre)
 				{
