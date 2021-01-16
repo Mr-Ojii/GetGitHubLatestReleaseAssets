@@ -2,6 +2,7 @@ window.onload=(()=>{
 let query = location.search;
 let url = "";
 let pre = 0;
+let search = "";
 if(query != "")
 {
 	query = query.slice(1);
@@ -20,15 +21,19 @@ if(query != "")
 		{
 			pre=paramValue;
 		}
+		else if(paramName == "search")
+		{
+			search=paramValue
+		}
 	}
 	if(url.startsWith("https://api.github.com/repos/"))
 	{
-		getrelease(url,pre);
+		getrelease(url,pre,search);
 	}
 }
 })
 
-function getrelease(url,pre)
+function getrelease(url,pre,search)
 {
 	let request = new XMLHttpRequest();
 	request.open('GET', url);
@@ -41,9 +46,27 @@ function getrelease(url,pre)
 			let obj=JSON.parse(request.responseText);
 			for(let i=0;i<obj.length;i++)
 			{
-				if(obj[i].prerelease==pre)
+				if(obj[i].prerelease==pre&&obj[i].assets.length!=0)
 				{
-					if(obj[i].assets[0]!=null){
+					if(search!="")
+					{
+						for(let j=0;j<obj[i].assets.length;j++)
+						{
+							if(obj[i].assets[j].name.includes(search))
+							{
+								location.href=obj[i].assets[j].browser_download_url
+								isexist=true;
+								break;
+							}
+						}
+						if(!isexist)
+						{
+							location.href=obj[i].assets[0].browser_download_url
+							isexist=true;
+						}
+					}
+					else
+					{
 						location.href=obj[i].assets[0].browser_download_url
 						isexist=true;
 					}
@@ -62,4 +85,5 @@ function getrelease(url,pre)
 		}
 	};
 	request.send(null);
+	document.getElementById("warning").innerHTML="<h1>Searching.</h1>"
 }
