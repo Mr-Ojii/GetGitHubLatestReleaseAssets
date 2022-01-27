@@ -36,6 +36,7 @@ function getrelease(url, pre, search) {
             document.getElementById("warning").innerHTML = "Failed."
         } else {
             let isexist = false;
+            let searchsuccess = true;
             let obj = JSON.parse(request.responseText);
             for (let i = 0; i < obj.length; i++) {
                 if (obj[i].prerelease == pre && obj[i].assets.length != 0) {
@@ -50,6 +51,7 @@ function getrelease(url, pre, search) {
                         if (!isexist) {
                             location.href = obj[i].assets[0].browser_download_url
                             isexist = true;
+                            searchsuccess = false;
                         }
                     }
                     else {
@@ -62,6 +64,9 @@ function getrelease(url, pre, search) {
             }
             if (!isexist) {
                 document.getElementById("warning").innerHTML = "Asset files does not exist."
+            }
+            else if(!searchsuccess) {
+                document.getElementById("warning").innerHTML = "Success to get asset file! But, search failed."
             }
             else {
                 document.getElementById("warning").innerHTML = "Success!"
