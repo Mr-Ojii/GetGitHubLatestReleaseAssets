@@ -11,14 +11,16 @@ window.onload = (() => {
 
             let paramName = decodeURIComponent(element[0]);
             let paramValue = decodeURIComponent(element[1]);
-            if (paramName == "url") {
-                url = paramValue;
-            }
-            else if (paramName == "pre") {
-                pre = paramValue;
-            }
-            else if (paramName == "search") {
-                search = paramValue
+            switch(paramName) {
+                case "url":
+                    url = paramValue;
+                    break;
+                case "pre":
+                    pre = paramValue;
+                    break;
+                case "search":
+                    search = paramValue;
+                    break;
             }
         }
         if (url.startsWith("https://api.github.com/repos/")) {
