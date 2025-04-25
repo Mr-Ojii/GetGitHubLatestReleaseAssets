@@ -3,6 +3,9 @@ window.onload = (() => {
     let url = "";
     let pre = 0;
     let search = "";
+    let user = null;
+    let repo = null;
+
     if (query != "") {
         query = query.slice(1);
         let param = query.split('&');
@@ -21,7 +24,16 @@ window.onload = (() => {
                 case "search":
                     search = paramValue;
                     break;
+                case "user":
+                    user = paramValue;
+                    break;
+                case "repo":
+                    repo = paramValue;
+                    break;
             }
+        }
+        if (user != null && repo != null) {
+            url = 'https://api.github.com/repos/' + user + "/" + repo + "/releases"
         }
         if (url.startsWith("https://api.github.com/repos/")) {
             getrelease(url, pre, search);
